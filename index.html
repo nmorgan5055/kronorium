@@ -51,7 +51,7 @@ body {
 a { color: var(--accent); }
 button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+.wrap { margin: 0 auto; padding-inline: clamp(16px, 3.5vw, 64px); }
 .mono { font-family: var(--f-mono); }
 .label { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 h1, h2, h3 { text-wrap: balance; margin: 0; }
@@ -194,6 +194,22 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .thumb img { display: block; width: 100%; aspect-ratio: 16 / 10; height: auto; object-fit: cover; background: var(--rule); }
 .thumb span { display: block; font-size: 13px; line-height: 1.25; padding: 5px 6px 6px; color: var(--muted); }
 .thumb.broken img { display: none; }
+@media (min-width: 700px) { .thumb { width: 600px; } .thumb span { font-size: 14px; padding: 7px 10px 9px; } }
+@media (min-width: 1200px) {
+  .step .body { display: grid; grid-template-columns: minmax(280px, 34rem) minmax(0, 1fr); gap: 8px 28px; align-items: start; }
+  .step .thumbs { padding-top: 6px; }
+}
+.rec { margin: 12px 16px 4px; padding: 12px 14px 14px; border: 1.5px dashed color-mix(in srgb, var(--accent) 60%, var(--rule)); border-radius: 10px; background: color-mix(in srgb, var(--accent-soft) 55%, var(--sheet)); display: grid; gap: 10px; }
+.rec-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.rec-head b { font-family: var(--f-display); font-weight: 800; font-size: 18px; letter-spacing: .04em; text-transform: uppercase; }
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px 16px; }
+.rf { display: grid; gap: 5px; min-width: 0; }
+.rf.wide { grid-column: 1 / -1; }
+.rf select, .rf input { min-height: 40px; border: 1px solid var(--rule); border-radius: 8px; background: var(--sheet); padding: 6px 8px; width: 100%; min-width: 0; }
+.seqrow { display: flex; gap: 6px; align-items: center; }
+.seqrow select, .seqrow input { flex: 1; max-width: 220px; }
+.seqrow .arrow { color: var(--muted); font-family: var(--f-mono); font-size: 12px; }
+.rec .chip { background: var(--sheet); }
 .thumb.broken::before { content: 'Picture unavailable'; display: grid; place-items: center; aspect-ratio: 16 / 10; font-family: var(--f-mono); font-size: 10.5px; color: var(--muted); text-align: center; padding: 6px; }
 .empty { padding: 24px 16px; color: var(--muted); text-align: center; }
 .danger { color: var(--stamp); }
@@ -367,7 +383,7 @@ M({
     ]},
 
     { id: 'prep', label: 'PaP & Sword', sections: [
-      { h: 'Beast Mode basics', steps: [
+      { h: 'Beast Mode basics', rec: [{ id: 'perkC', label: 'Canals perk (bottle color)', type: 'select', opts: ['Juggernog (red)', 'Speed Cola (green)', 'Double Tap (orange)'] }, { id: 'perkW', label: 'Waterfront perk', type: 'select', opts: ['Juggernog (red)', 'Speed Cola (green)', 'Double Tap (orange)'] }, { id: 'perkF', label: 'Footlight perk', type: 'select', opts: ['Juggernog (red)', 'Speed Cola (green)', 'Double Tap (orange)'] }], steps: [
         ['Touch a flaming chalice to enter Beast Mode (25 s; 1 charge per round, 3 on solo). Shock fuse boxes, melee crates/doors, grapple to hooks.', ['pictures/beast_mode/beast_mode_chalice.webp|Chalice']],
         ['Shock the fuse box next to each perk or locked door to power it.', ['pictures/power/fuse_box.webp|Fuse box']]
       ]},
@@ -380,7 +396,7 @@ M({
         ['After each ritual, pick up the Gateworm.'],
         ['Take a rift to the Underground, walk up to the glowing symbol wall, place all four Gateworms on the pedestals (two repair wallrun walls, two repair the bridge), then do the final ritual. PaP appears as a blue rift.', ['pictures/pap/glowing_symbols.webp|Symbol wall', 'pictures/pap/gateworm_pedistals.webp|Pedestals', 'pictures/pap/ritual_table.webp|Final table']]
       ]},
-      { h: 'Apothicon Sword', steps: [
+      { h: 'Apothicon Sword', rec: [{ id: 'symC', label: 'Canals train symbol', type: 'text', ph: 'Describe the symbol' }, { id: 'symW', label: 'Waterfront train symbol', type: 'text', ph: 'Describe the symbol' }, { id: 'symF', label: 'Footlight train symbol', type: 'text', ph: 'Describe the symbol' }], steps: [
         ['Ride the train and note one symbol per district: Canals (left, round window), Waterfront (right, warehouse window), Footlight (left, apartment window).', ['pictures/apothicon_sword/symbol_canals.webp|Canals', 'pictures/apothicon_sword/symbol_waterfront.webp|Waterfront', 'pictures/apothicon_sword/symbol_footlight.webp|Footlight']],
         ['In the Underground, Beast Mode-shock those three symbols on the wall left of the GobbleGum machine. Take an egg from the stone structure.', ['pictures/apothicon_sword/wall_with_symbols.webp|Symbol wall', 'pictures/apothicon_sword/stone_structure.webp|Eggs & swords']],
         ['Break the tall wooden boxes in Beast Mode to reveal 4 statues (Underground, behind Ruby Rabbit, Waterfront ruined building, Footlight by Vesper). Place the egg on each and get ~12 kills.', ['pictures/apothicon_sword/wooden_box_underground.webp|Underground', 'pictures/apothicon_sword/wooden_box_canals.webp|Canals', 'pictures/apothicon_sword/wooden_box_waterfront.webp|Waterfront', 'pictures/apothicon_sword/wooden_box_footlight.webp|Footlight']],
@@ -417,7 +433,7 @@ M({
         ['Get 100 Arnie kills (team total), then throw Arnies at: top hat in Nero\'s room, cane on the Ruby Rabbit couch, bow tie in the Gym locker room.', ['pictures/upgraded_lil_arnies/arnie_nero.webp|Top hat', 'pictures/upgraded_lil_arnies/arnie_canals.webp|Cane', 'pictures/upgraded_lil_arnies/arnie_waterfront.webp|Bow tie']],
         ['Throw one at the Footlight ritual table for three upgraded Arnies.']
       ]},
-      { h: 'Upgraded Trip Mines', steps: [
+      { h: 'Upgraded Trip Mines', rec: [{ id: 'tripside', label: 'Side I picked (never hit this side\'s carts)', type: 'select', opts: ['Holly\'s Cream Cakes', 'Devil-O-Donuts'] }, { id: 'carts', label: 'Enemy carts destroyed', type: 'multi', opts: ['Junction', 'Canals', 'Footlight', 'Waterfront'] }], steps: [
         ['Pick Holly\'s or Devil-O-Donuts and blow up all of the <b>other</b> side\'s carts with trip mines. Never hit your own side\'s cart.', ['pictures/upgraded_trip_mines/holly_cart.webp|Holly\'s cart', 'pictures/upgraded_trip_mines/devil_cart.webp|Devil cart']]
       ]}
     ]},
@@ -515,7 +531,7 @@ M({
         ['Build at least one upgraded bow. In co-op you need as many <b>different</b> upgraded bows as there are players (4 players = all four bows).'],
         ['Build the Ragnarok DG-4 for every player (see Buildables tab). Activate the Death Ray trap at least once.']
       ]},
-      { h: 'Time Travel #1 — fuses & safe code', steps: [
+      { h: 'Time Travel #1 — fuses & safe code', rec: [{ id: 'safe', label: 'Safe code, top to bottom (changes every trip)', type: 'seq', n: 3, opts: ['Rocket', 'Circle', 'Lightning', 'D'] }], steps: [
         ['Hold the <b>base</b> Wrath of the Ancients and shoot all six prongs around the top of the Undercroft teleporter. Each glows when hit; a growl plays when all six are done.', ['pictures/main_ee/teleporter.webp|Teleporter prongs', 'pictures/main_ee/glowing_prong.webp|Lit prong']],
         ['Swap to your upgraded bow and shoot four wisps, one at a time, before the round ends. Each hit spawns the next one somewhere else. Shooting an empty wisp spot fails it — retry next round.', ['pictures/main_ee/wisp_church.webp|Church clock above dragon', 'pictures/main_ee/wisp_m8a7.webp|Church radio by M8A7', 'pictures/main_ee/wisp_clock_barracks.webp|Upper Courtyard clock', 'pictures/main_ee/wisp_power.webp|Power room telephone', 'pictures/main_ee/wisp_living_quarters.webp|Globe near Samantha\'s room', 'pictures/main_ee/wisp_gatehouse.webp|Boxes above Double Tap', 'pictures/main_ee/wisp_car.webp|Car near Double Tap', 'pictures/main_ee/wisp_spawn.webp|Next to Quick Revive']],
         ['When the teleporter glows purple, all players step in and activate it.', ['pictures/main_ee/purple_tele.webp|Purple teleporter']],
@@ -582,7 +598,7 @@ M({
         ['Land on the platform that appears and deposit the bones; a skeleton hands you the reforged arrow.', ['pictures/wrath_of_the_ancients/wolf_bow/platform.webp|Platform']],
         ['Place it in the Wolf box, kill zombies on the pyramid stairs until it glows, then trade in your base bow.', ['pictures/wrath_of_the_ancients/wolf_bow/wolf_bow_box.webp|Wolf box']]
       ]},
-      { h: 'Void Bow', w: { bow: ['void'] }, steps: [
+      { h: 'Void Bow', rec: [{ id: 'voidnames', label: 'Names the urn says, in order', type: 'seq', n: 3, opts: ['Crown', 'Stag', 'Heart', 'Door', 'Griffin', 'Horn'] }], w: { bow: ['void'] }, steps: [
         ['Shoot the purple symbol above the gate by Double Tap. Pick up the broken arrow.', ['pictures/wrath_of_the_ancients/void_bow/purple_arrow_wall.webp|Symbol', 'pictures/wrath_of_the_ancients/void_bow/broken_arrow.webp|Broken arrow']],
         ['In the round room under the Clock Tower, melee a zombie standing on the purple tile using the bow (not the knife). Interact with the urn that appears.', ['pictures/wrath_of_the_ancients/void_bow/glowing_tile.webp|Purple tile', 'pictures/wrath_of_the_ancients/void_bow/urn.webp|Urn']],
         ['Interact with six skulls: Church stairs window sill, Mule Kick ledge, ledge by Double Tap, toy box in Samantha\'s room, sink in the Teleporter Room, back of the Rocket Pad truck.', ['pictures/wrath_of_the_ancients/void_bow/skull_upper_courtyard.webp|Church stairs', 'pictures/wrath_of_the_ancients/void_bow/skull_mule_kick.webp|Mule Kick', 'pictures/wrath_of_the_ancients/void_bow/skull_double_tap.webp|Double Tap', 'pictures/wrath_of_the_ancients/void_bow/skull_sams_room.webp|Samantha\'s room', 'pictures/wrath_of_the_ancients/void_bow/skull_sink.webp|Sink', 'pictures/wrath_of_the_ancients/void_bow/skull_truck.webp|Truck']],
@@ -591,7 +607,7 @@ M({
         ['Kill zombies until they drop purple symbols; grab the three that match. Back in the urn room, shoot the floor symbols in the order the names were spoken.', ['pictures/wrath_of_the_ancients/void_bow/symbol_drop.webp|Symbol drop', 'pictures/wrath_of_the_ancients/void_bow/floor_symbols.webp|Floor symbols']],
         ['Take the reforged arrow from the beam of light, place it in the Void box, charge it on the pyramid stairs, then trade in your base bow.', ['pictures/wrath_of_the_ancients/void_bow/beam_of_light.webp|Beam', 'pictures/wrath_of_the_ancients/void_bow/void_box.webp|Void box']]
       ]},
-      { h: 'Fire Bow', w: { bow: ['fire'] }, steps: [
+      { h: 'Fire Bow', rec: [{ id: 'fireplace', label: 'Fireplace with (or missing) the Keeper symbol', type: 'select', opts: ['Church', 'Richtofen\'s room', 'Lower Courtyard'] }], w: { bow: ['fire'] }, steps: [
         ['At the top of the Clock Tower, shoot the symbol on the wall and take the broken arrow.', ['pictures/wrath_of_the_ancients/fire_bow/arrow_wall.webp|Wall symbol', 'pictures/wrath_of_the_ancients/fire_bow/broken_arrow.webp|Broken arrow']],
         ['Wait out a rocket test in the Rocket Pad teleporter tunnel. When the doors open, shoot the glowing orange rock above VMP within ~7 seconds.', ['pictures/wrath_of_the_ancients/fire_bow/glowing_rock.webp|Glowing rock']],
         ['Fly on Wunderspheres and shoot three ritual circles (Gatehouse, Death Ray, Clock Tower). Then stand in each and get ~10 kills until fire shoots up.', ['pictures/wrath_of_the_ancients/fire_bow/circle_gatehouse.webp|Gatehouse circle', 'pictures/wrath_of_the_ancients/fire_bow/circle_death_ray.webp|Death Ray circle', 'pictures/wrath_of_the_ancients/fire_bow/circle_clocktower.webp|Clock Tower circle']],
@@ -698,7 +714,7 @@ M({
         { h: 'Gear 1 — Anywhere But Here!', steps: [
           ['Use "Anywhere But Here!" to teleport into the hidden room above Lab A (broken dragon eggs inside). Grab the gear.', [S + '1814363346980826021/AD267FD51BEE4B52CB706531C5CB029628247F1A/|Gear above Lab A']]
         ]},
-        { h: 'Gear 2 — shoot down the plane', steps: [
+        { h: 'Gear 2 — shoot down the plane', rec: [{ id: 'gear2', label: 'Where the gear landed', type: 'select', opts: ['By the meteor past Lab B', 'Stairs toward the Lab A zipline', 'Outside the bunker entrance'] }], steps: [
           ['Water seeds with blue water each round and shoot each watering with the KT-4. Grow several at once until a plant drops a Flak shell.', [S + '1814363346980831306/5FC59FEAA00BE71908AE2AD820397A986475A2EE/|KT-4 on seed', S + '1814363346980834907/DB6765D082EFB91EED50C442E9784C6B4AD7DAE3/|Flak shell plant']],
           ['Load the shell into the Flak 88 in the artillery room (first door on the right in the bunker). Fire when the plane lines up with the barrel.', [S + '1814363346980837356/831A6D6C5C5D0E71D8C438BD7E2D72D4F2409B4F/|Artillery room', S + '1814363346980850466/F549CCAFB1DC9274042C218B85B37C3BEA52BC14/|Load Flak 88']],
           ['Follow the black smoke: the gear lands by the meteor past Lab B, on the stairs toward the Lab A zipline, or outside the bunker entrance.', [S + '1814363346980864616/303492B13459B64CE6E8AFCBCFFAE76D5233BEDF/|Falling gear']]
@@ -736,12 +752,12 @@ M({
           ['Flower: swim the underwater caverns past Mule Kick to the end of the blue tunnel. Shoot spores to breathe.', [S + '495772992980630778/0921BF83DCADCE2CA4C242ABD0A72B9C74A6F525/|Flower']],
           ['Craft at the table in the flooded bunker room.', [S + '495772992980628019/2B8D883338C453E9699C7FCE3F708A1C63DE4BA1/|KT-4 table']]
         ]},
-        { h: 'Skull of Nan Sapwe', steps: [
+        { h: 'Skull of Nan Sapwe', rec: [{ id: 'pedSpawn', label: 'Spawn pedestal symbol', type: 'text', ph: 'e.g. 3 arrows' }, { id: 'pedPlane', label: 'Crashed plane pedestal symbol', type: 'text', ph: '' }, { id: 'pedBunker', label: 'KT-4 room pedestal symbol', type: 'text', ph: '' }, { id: 'pedOut', label: 'Outside bunker pedestal symbol', type: 'text', ph: '' }, { id: 'skullsDone', label: 'Skulls cleansed', type: 'multi', opts: ['Spawn', 'Plane', 'KT-4 room', 'Outside bunker'] }], steps: [
           ['At the altar court right of spawn, take a bloody skull from a pillar and note its symbol.', [S + '495772992975858553/87D9A92C0AB3316EEAAF889D0521483CDB0CED2E/|Altar court', S + '495772992975859506/B6BC24F992CEE92C582716530C2AF6D0B8B9D175/|Skulls']],
           ['Place it on the pedestal with the matching symbol (spawn, crashed plane, KT-4 room, outside bunker by zipline) and defend it. Return the clean skull. Do all four.', [S + '495772992980620308/6F8420CE59230D090F906F3C0A5E0E5C58C5B883/|Spawn', S + '495772992975866002/A5D29BCC51FAA8D2A56C4AF3810385303D850711/|Plane', S + '495772992975869671/D4D5996F26CC662C7F853C01B10A2B7BD3CA2F10/|Bunker', S + '495772992975875082/91467E3AF2ACE0C3B0E3C0CE56422091D04DCB7E/|Outside']],
           ['Enter the cave under the main altar, interact with the skull, kill the Keepers, and take the Skull.', [S + '495772992980636766/430F9035D86488071E6A0215810B784E3E8FB506/|Cave', S + '495772992980637900/7FC6BD38C88BFC1E88A00FAEE9DF1A053B81D9C5/|Skull']]
         ]},
-        { h: 'Trials of the Ancients', steps: [
+        { h: 'Trials of the Ancients', rec: [{ id: 'trials', label: 'My three trials', type: 'text', ph: 'e.g. water 5 plants, 20 underwater kills, eat a fruit' }], steps: [
           ['Walk up to the symbols on the four pillars by the altar to see your three challenges (yours are yellow). Complete and claim them all.', [S + '495772992980623006/1BF0E157A7AFF74E0EFAE9A8F665C95B8152486A/|Pillars']],
           ['Once every player is done, stand at the altar with a shield until lightning electrifies it.']
         ]},
@@ -814,13 +830,13 @@ M({
           ['Laser trap: fire the giant eye-beam trap in the Supply Depot; take the trophy from the hole it blasts.'],
           ['Tank Factory: shoot the window/pipe beside Double Tap with the shield\'s fireball; the trophy pops out next to the perk.']
         ]},
-        { h: 'Valve puzzle & password', steps: [
+        { h: 'Valve puzzle & password', rec: [{ id: 'vStart', label: 'Start chamber (green light)', type: 'select', opts: ['Dragon Command', 'Tank Factory', 'Infirmary', 'Department Store', 'Supply Depot', 'Armory'] }, { id: 'vEnd', label: 'End chamber (purple cylinder)', type: 'select', opts: ['Dragon Command', 'Tank Factory', 'Infirmary', 'Department Store', 'Supply Depot', 'Armory'] }, { id: 'vRoute', label: 'Route from the solver', type: 'text', ph: 'e.g. Armory → Infirmary → …' }], steps: [
           ['Kill a Valkyrie drone next to the green-tarp generator in the Hatchery basement. You now have ~5 minutes.'],
           ['Valve chambers: Dragon Command balcony, Tank Factory outside, Infirmary 2nd floor, Department Store 3rd floor, Supply Depot under Stamin-Up, Armory 3rd floor. Start at the one with the green light, end at the one with the purple cylinder, visiting each once. <a href="https://mmmrkennedy.com/games/BO3/gorod_krovi/gorod_krovi_solver" target="_blank" rel="noopener">Open the valve solver ↗</a>', [G + '20160714160726.jpg|A valve chamber']],
           ['Take the purple master cylinder to S.O.P.H.I.A. (right side of Dragon Command) and insert it.'],
           ['Shoot the letter wheel to spell KRONOS, then interact with S.O.P.H.I.A. A wrong entry locks you out until next round.', [G + '20160713214700.jpg|KRONOS']]
         ]},
-        { h: 'S.O.P.H.I.A. trials', note: 'Random order. Check the map terminal opposite her for the current trial.', steps: [
+        { h: 'S.O.P.H.I.A. trials', rec: [{ id: 'bombs', label: 'Bomb order from the terminal', type: 'text', ph: 'e.g. Armory, Store, Depot…' }], note: 'Random order. Check the map terminal opposite her for the current trial.', steps: [
           ['Escort the green-eyed Valkyrie drone to the teleport pad opposite S.O.P.H.I.A.', [G + '20160714162715.jpg|Map terminal']],
           ['Escort the green-eyed Mangler from the Tank Factory to the pad.'],
           ['Defend a Groph pod, then send the Gauntlet\'s whelp to carry the cargo back to the pad.'],
@@ -930,12 +946,12 @@ M({
         ['All players enter the Kino teleporter to reach Samantha\'s room. Take the Kronorium from the bed.'],
         ['Back in Kino, place it on the stage podium.']
       ]},
-      { h: 'Gateworms & runes', steps: [
+      { h: 'Gateworms & runes', rec: [{ id: 'eggSpawn', label: 'Egg — Spawn / Shangri-La', type: 'select', opts: ['Barrel by the Origins jump pad', 'Trash can by the Shangri-La jump pad', 'Barricade left of Stamin-Up', 'Fire pit at the bottom of the stairs'] }, { id: 'eggDE', label: 'Egg — Der Eisendrache / Kino', type: 'select', opts: ['Primis statue room', 'Bucket right of the cave Wunderfizz', 'Seats between Bowie Knife and teddy bear', 'Ledge halfway down the stairs from DE'] }, { id: 'eggV', label: 'Egg — Verrückt', type: 'select', opts: ['Plant on the fence by the portal', 'Mattress above Speed Cola', 'Between the green tubes upstairs', 'Small chairs by the Wunderfizz'] }, { id: 'eggO', label: 'Egg — Origins / Mob', type: 'select', opts: ['Floor by the rocks to the Corruption Engine', 'Wooden wall by the KN-44 (Mound tunnel)', 'Snow pile left of the Mound Wunderfizz', 'Rocks by the robot footprint'] }, { id: 'runeSpawn', label: 'Rune — Spawn', type: 'select', opts: ['Window with flower pots by the Origins pad', 'Left of Quick Revive', 'Rocks by the Shangri-La pad'] }, { id: 'runeDE', label: 'Rune — Der Eisendrache / Kino', type: 'select', opts: ['In front of Stamin-Up', 'In front of the Primis statues', 'Anti-gravity plate by the MPD'] }, { id: 'runeV', label: 'Rune — Verrückt', type: 'select', opts: ['Path to the Kino jump pad', 'Electro-Shock room metal', 'Right of the tubes upstairs'] }, { id: 'runeO', label: 'Rune — Origins / Mob', type: 'select', opts: ['Right of the barricade by Mob GobbleGum', 'Under the lantern by the KN-44', 'Trench below the robot foot path'] }], steps: [
         ['Find one egg per area (carry one at a time). Spawn/Shangri-La, Der Eisendrache/Kino, Verrückt, and Origins/Mob each have one of four random spots.'],
         ['Place each egg in a slot in the green pool inside the Apothicon. The player who placed it gets kills nearby until it becomes a gateworm.'],
         ['Carry a gateworm to its area and follow the beeping (faster = closer) to an invisible rune spot. Interact to trade it for a rune. Do all four.']
       ]},
-      { h: 'Rune boss waves → Summoning Key', steps: [
+      { h: 'Rune boss waves → Summoning Key', rec: [{ id: 'runeOrder', label: 'Rune order shown by the Kronorium', type: 'text', ph: 'Describe each rune in order' }], steps: [
         ['All players stand on a rune in the Kino projector room to teleport.'],
         ['Watch the Kronorium turn pages to show the rune order. Enter it on the runes at the back upper area.'],
         ['Survive four elemental waves in random order (Anti-gravity: stand on moving light spots · Fire: avoid fire walls, kill Fire Margwas · Lightning: walls block paths · Void: dodge tornadoes, kill Void Margwas).'],
@@ -1074,7 +1090,7 @@ M({
       { h: 'Song: "115"', steps: [
         ['Interact with three meteor rocks: in a jar under the stairs near Quick Revive, on a stand by the mannequins behind the dressing-room wallbuy, and on the letter shelf in the upstairs alley room.', ['pictures/song_ee/rock_spawn.webp|Spawn jar', 'pictures/song_ee/rock_dressing_room.webp|Dressing room', 'pictures/song_ee/rock_alley.webp|Alley room']]
       ]},
-      { h: 'Song: "Samantha\'s Sorrow" + free Max Ammo', steps: [
+      { h: 'Song: "Samantha\'s Sorrow" + free Max Ammo', rec: [{ id: 'knock1', label: 'Knock pattern 1', type: 'nums', n: 3 }, { id: 'knock2', label: 'Knock pattern 2', type: 'nums', n: 3 }, { id: 'knock3', label: 'Knock pattern 3', type: 'nums', n: 3 }], steps: [
         ['Stand by the blue door in the alley and count the three knock patterns. Melee the door with the same counts, pausing between groups.', ['pictures/free_max_ammo/blue_door.webp|Blue door']],
         ['Interact with the doll that appears in front of the stage.', ['pictures/free_max_ammo/doll_init_loc.webp|First doll']],
         ['Shoot the five dolls that spawn one at a time around the theater (seats, projector window, chandelier orb, balcony, stage platform and more).', ['pictures/free_max_ammo/doll_theatre_jug.webp|Seat by Jug', 'pictures/free_max_ammo/doll_projector_room.webp|Projector window', 'pictures/free_max_ammo/doll_chandelier.webp|Chandelier', 'pictures/free_max_ammo/doll_balcony_above_init.webp|Balcony', 'pictures/free_max_ammo/doll_stage_metal_platform.webp|Stage platform', 'pictures/free_max_ammo/doll_fake_wall.webp|Fake wall']],
@@ -1180,7 +1196,7 @@ M({
         ['Blow up the teepee outside the map near the mine-cart start (ends the Eclipse). Re-enter it.', ['pictures/main_ee/teepee.webp|Teepee']],
         ['Set the four mud room dials to 4, 3, 16, 1 (start left coming from spawn, go clockwise; " = 10, | = 5, • = 1).', ['pictures/main_ee/shang_dials_cheat_sheet.webp|Dial cheat sheet', 'pictures/main_ee/crystal_ball_6.webp|Crystal 6']]
       ]},
-      { h: 'Dynamite & meteor', steps: [
+      { h: 'Dynamite & meteor', rec: [{ id: 'gongs', label: 'Correct gongs (stay the same all game)', type: 'multi', opts: ['Rope bridge bottom', 'Rope bridge top, left of L-CAR', 'Rope bridge top, right of L-CAR', 'Mud room toward spawn', 'Spawn, left of Sheiva', 'Mine cart start', 'Down the mine-cart slope', 'Right of the tunnel'] }], steps: [
         ['Pack-a-Punch the shrink gun into the Fractalizer.'],
         ['Melee the four correct gongs out of eight (trial and error; correct ones stay the same). The crystals glow gold.', ['pictures/main_ee/gong_rope_bottom.webp|Gong', 'pictures/main_ee/glowing_crystals.webp|Gold crystals']],
         ['While they glow, stand under the crystal above the mine-cart geyser and shoot it with the Fractalizer to catch the dynamite.', ['pictures/main_ee/crystal_with_dynamite.webp|Dynamite crystal']],
@@ -1193,7 +1209,7 @@ M({
       { h: 'Song: "Pareidolia"', steps: [
         ['Interact with three red meteors: spawn right of the spikes to the mine carts, the mine-cart track room by the barbed wire, top of the rope bridge facing the waterfall.', ['pictures/song_ee/meteor_spawn_bo3.webp|Spawn', 'pictures/song_ee/meteor_underground.webp|Underground', 'pictures/song_ee/meteor_rope_bridge.webp|Rope bridge']]
       ]},
-      { h: 'Song: "Samantha\'s Sorrow" + free Max Ammo', steps: [
+      { h: 'Song: "Samantha\'s Sorrow" + free Max Ammo', rec: [{ id: 'gongs', label: 'Correct gongs (same as the main quest)', type: 'multi', opts: ['Rope bridge bottom', 'Rope bridge top, left of L-CAR', 'Rope bridge top, right of L-CAR', 'Mud room toward spawn', 'Spawn, left of Sheiva', 'Mine cart start', 'Down the mine-cart slope', 'Right of the tunnel'] }], steps: [
         ['Keep your starting 1911. Melee the four correct gongs within a minute.', ['pictures/free_max_ammo/gong_shieva.webp|Gong']],
         ['Within 60 s, at the bottom of the slide, shoot the first pan from the left twice, then the fifth once.', ['pictures/free_max_ammo/wall_with_pans.webp|Pans']],
         ['Interact with the doll by the danger sign near the mine-cart start, then shoot five dolls along the mine-cart route in order.', ['pictures/free_max_ammo/doll_laying_down.webp|Doll', 'pictures/free_max_ammo/doll_1.webp|1', 'pictures/free_max_ammo/doll_2.webp|2', 'pictures/free_max_ammo/doll_3.webp|3', 'pictures/free_max_ammo/doll_4.webp|4', 'pictures/free_max_ammo/doll_5.webp|5']],
@@ -1222,14 +1238,14 @@ M({
         ['Turn on the power and get the Hacker (small lab rooms; a yellow leaflet hints where). Box for the Wave Gun, QEDs and Gersh Devices.'],
         ['Samantha Says: at the four terminals outside, repeat the color sequence (red, green, blue, yellow from left to right). <a href="https://mmmrkennedy.com/games/BO1/moon/moon_simon_says" target="_blank" rel="noopener">Samantha Says helper ↗</a>']
       ]},
-      { h: 'Cryogenic Slumber Party', steps: [
+      { h: 'Cryogenic Slumber Party', rec: [{ id: 'hacker', label: 'Where the Hacker spawned', type: 'text', ph: 'Lab room' }], steps: [
         ['On the labs\' 2nd floor, hack the wall panel (500), then quickly hack the four green terminals across the three floors.'],
         ['Press the four black buttons on the 2nd-floor wall, left to right; their lights stay on.'],
         ['Wait for the Pi excavator to breach Tunnel 6, then hack the control-room terminal to raise it.'],
         ['Shoot or melee the Vril sphere in Tunnel 6 and keep pushing it. When it sticks on the satellite on top of spawn, hit it with the Wave Gun. Guide it to the base of the MPD (pyramid).'],
         ['Kill 25 zombies by the canister that rises, then flip the switch opposite it. Everyone gets a Death Machine.']
       ]},
-      { h: 'Big Bang Theory', steps: [
+      { h: 'Big Bang Theory', rec: [{ id: 'wire', label: 'Where the wire was', type: 'select', opts: ['Hacking rooms', 'Stairwell', 'Cabinets', 'Outside near Mule Kick'] }], steps: [
         ['In Area 51, knock the plates off the racks behind Speed Cola with grenades, then pull them to the teleporter with a Gersh Device.'],
         ['On the moon, throw a QED at the plates near Quick Revive to carry them to the computer across the room.'],
         ['Find the wire (hacking rooms, stairwell, cabinets or outside near Mule Kick) and place it at that computer.'],
@@ -1296,7 +1312,7 @@ M({
         ['Take the gramophone from the ground by a table at the excavation site, find a black record (by a generator near the excavation sign, on the excavation wall by the church, or in a wheelbarrow near PaP), and place the gramophone on the table to open the underground.'],
         ['For each staff: collect its 3 pieces and its record, play the gramophone in that staff\'s tunnel to enter the Crazy Place, take the element shard, and build the staff at the bottom of the excavation site.']
       ]},
-      { h: 'Fire Staff', w: { staff: ['fire'] }, steps: [
+      { h: 'Fire Staff', rec: [{ id: 'torches', label: 'Torch numbers from the church symbols', type: 'nums', n: 4 }], w: { staff: ['fire'] }, steps: [
         ['Pieces: Generator 6 reward chest; shoot the red plane over No Man\'s Land (part lands by the excavation soul box); Panzer drop.'],
         ['Record: in the church. Tunnel: between spawn and Generator 3.'],
         ['Upgrade 1: in the Crazy Place, kill 30 zombies on the grates in the fire area.'],
@@ -1386,7 +1402,7 @@ M({
   ];
 
   // ---------- storage ----------
-  let S = { checks: {}, settings: {}, runs: {}, prefs: { pics: true, hideDone: false, theme: 'auto' } };
+  let S = { checks: {}, settings: {}, runs: {}, notes: {}, prefs: { pics: true, hideDone: false, theme: 'auto' } };
   function load() {
     try {
       const raw = localStorage.getItem(KEY);
@@ -1525,6 +1541,63 @@ M({
     $('#backupBtn').addEventListener('click', openBackup);
   }
 
+  // ---------- write-it-down fields ----------
+  function notesOf(m) { S.notes = S.notes || {}; return S.notes[m.id] || (S.notes[m.id] = {}); }
+  function recHTML(m, sec) {
+    if (!sec.rec) return '';
+    const N = notesOf(m);
+    const opt = (o, v) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>';
+    const f = sec.rec.map(r => {
+      const v = N[r.id];
+      const lab = '<span class="label">' + esc(r.label) + '</span>';
+      if (r.type === 'seq') {
+        const arr = Array.isArray(v) ? v : [];
+        let row = '';
+        for (let i = 0; i < r.n; i++) row += (i ? '<span class="arrow">→</span>' : '') + '<select data-rec="' + r.id + '" data-i="' + i + '" aria-label="' + esc(r.label) + ' ' + (i + 1) + '"><option value="">' + (i + 1) + '…</option>' + r.opts.map(o => opt(o, arr[i])).join('') + '</select>';
+        return '<div class="rf wide">' + lab + '<div class="seqrow">' + row + '</div></div>';
+      }
+      if (r.type === 'nums') {
+        const arr = Array.isArray(v) ? v : [];
+        let row = '';
+        for (let i = 0; i < r.n; i++) row += (i ? '<span class="arrow">·</span>' : '') + '<input type="number" inputmode="numeric" data-rec="' + r.id + '" data-i="' + i + '" value="' + esc(arr[i] ?? '') + '" aria-label="' + esc(r.label) + ' ' + (i + 1) + '">';
+        return '<div class="rf">' + lab + '<div class="seqrow">' + row + '</div></div>';
+      }
+      if (r.type === 'select') return '<div class="rf">' + lab + '<select data-rec="' + r.id + '"><option value="">Not found yet</option>' + r.opts.map(o => opt(o, v)).join('') + '</select></div>';
+      if (r.type === 'multi') {
+        const arr = Array.isArray(v) ? v : [];
+        return '<div class="rf wide">' + lab + '<div class="chips">' + r.opts.map(o => '<button type="button" class="chip" data-recm="' + r.id + '" data-val="' + esc(o) + '" aria-pressed="' + arr.includes(o) + '">' + esc(o) + '</button>').join('') + '</div></div>';
+      }
+      return '<div class="rf">' + lab + '<input type="text" data-rec="' + r.id + '" value="' + esc(v || '') + '" placeholder="' + esc(r.ph || '') + '"></div>';
+    }).join('');
+    return '<div class="rec"><div class="rec-head"><b>Write it down</b><span class="label">Saved for this game · clear it at the bottom of the page</span></div><div class="rec-grid">' + f + '</div></div>';
+  }
+  function wireRec(m) {
+    const N = notesOf(m);
+    $('#app').querySelectorAll('[data-rec]').forEach(el => {
+      const ev = el.tagName === 'SELECT' ? 'change' : 'input';
+      el.addEventListener(ev, () => {
+        const id = el.dataset.rec;
+        if (el.dataset.i != null) {
+          const arr = Array.isArray(N[id]) ? N[id] : [];
+          arr[+el.dataset.i] = el.value; N[id] = arr;
+          // keep every copy of a shared field in sync
+          $('#app').querySelectorAll('[data-rec="' + id + '"][data-i="' + el.dataset.i + '"]').forEach(o => { if (o !== el) o.value = el.value; });
+        } else {
+          N[id] = el.value;
+          $('#app').querySelectorAll('[data-rec="' + id + '"]').forEach(o => { if (o !== el) o.value = el.value; });
+        }
+        save();
+      });
+    });
+    $('#app').querySelectorAll('[data-recm]').forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.recm, v = b.dataset.val;
+      let arr = Array.isArray(N[id]) ? N[id] : [];
+      arr = arr.includes(v) ? arr.filter(x => x !== v) : arr.concat(v);
+      N[id] = arr; save();
+      $('#app').querySelectorAll('[data-recm="' + id + '"]').forEach(o => o.setAttribute('aria-pressed', arr.includes(o.dataset.val)));
+    }));
+  }
+
   // ---------- map page ----------
   let curTab = {};
   function renderMap(m, tabId, keepScroll) {
@@ -1592,12 +1665,12 @@ M({
       shown++;
       h += '<article class="section' + (all ? ' complete' : '') + '"><div class="sec-head"><h3>' + sec.h + '</h3><span class="cnt">' + doneN + '/' + steps.length + '</span>' +
         '<span class="ext"><a href="https://www.google.com/search?tbm=isch&q=' + q + '" target="_blank" rel="noopener">More pictures ↗</a><a href="https://www.youtube.com/results?search_query=' + q + '+guide" target="_blank" rel="noopener">Video ↗</a></span></div>' +
-        (sec.note ? '<div class="note">' + sec.note + '</div>' : '') +
+        (sec.note ? '<div class="note">' + sec.note + '</div>' : '') + recHTML(m, sec) +
         (list ? '<ol class="steps">' + list + '</ol>' : '<div class="empty">All steps in this section are checked.</div>') + '</article>';
     });
     if (!shown) h += '<div class="empty">Nothing matches your filters. Tap “Show all” above.</div>';
     h += '</section>';
-    h += '<section class="wrap reset-row" id="resetRow"><button type="button" class="iconbtn danger" id="resetBtn">Uncheck every step on ' + esc(m.name) + '</button><span id="resetConfirm" hidden>Sure? This can’t be undone. <button type="button" class="iconbtn danger" id="resetYes">Yes, uncheck all</button> <button type="button" class="iconbtn" id="resetNo">Cancel</button></span></section>';
+    h += '<section class="wrap reset-row" id="resetRow"><button type="button" class="iconbtn danger" id="resetBtn">Uncheck every step on ' + esc(m.name) + '</button>' + (m.tabs.some(t => t.sections.some(x => x.rec)) ? '<button type="button" class="iconbtn" id="clearNotes">Clear written notes (new game)</button>' : '') + '<span id="resetConfirm" hidden>Sure? This can’t be undone. <button type="button" class="iconbtn danger" id="resetYes">Yes, uncheck all</button> <button type="button" class="iconbtn" id="resetNo">Cancel</button></span></section>';
 
     $('#app').innerHTML = h;
     if (keepScroll) window.scrollTo(0, y);
@@ -1631,6 +1704,9 @@ M({
       const st = findStep(m, k);
       if (st) openLightbox(m, st.i, +b.dataset.idx);
     }));
+    wireRec(m);
+    const cn = $('#clearNotes');
+    if (cn) cn.addEventListener('click', () => { if (cn.dataset.armed) { delete S.notes[m.id]; save(); renderMap(m, tab.id, true); } else { cn.dataset.armed = 1; cn.textContent = 'Tap again to clear notes'; } });
     $('#resetBtn').addEventListener('click', () => { $('#resetConfirm').hidden = false; });
     $('#resetNo').addEventListener('click', () => { $('#resetConfirm').hidden = true; });
     $('#resetYes').addEventListener('click', () => {
@@ -1738,7 +1814,7 @@ M({
     try {
       const d = JSON.parse($('#importBox').value);
       if (!d || typeof d !== 'object' || !d.checks) throw new Error('bad');
-      S = { checks: d.checks || {}, settings: d.settings || {}, runs: d.runs || {}, prefs: Object.assign({ pics: true, hideDone: false, theme: 'auto' }, d.prefs || {}) };
+      S = { checks: d.checks || {}, settings: d.settings || {}, runs: d.runs || {}, notes: d.notes || {}, prefs: Object.assign({ pics: true, hideDone: false, theme: 'auto' }, d.prefs || {}) };
       save(); applyTheme(); $('#exportBox').value = JSON.stringify(S);
       $('#backupMsg').textContent = 'Progress restored.'; route(true);
     } catch (e) { $('#backupMsg').textContent = 'That doesn’t look like a Kronorium backup. Paste the whole text from the Copy box.'; }
